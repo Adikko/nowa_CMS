@@ -2,7 +2,7 @@
 // <h3> to be retained
 // <i>, <b>, <strong> inside the text shouldn't generate new paragraphs
 // <br> inside photo frame when description has multiple lines
-// spaces to be retained in the lead
+// links ending in a dot cannot generate a new line of text
 
 
 // ___________LEAD/OPIS_________________
