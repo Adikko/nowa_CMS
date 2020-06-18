@@ -1,3 +1,9 @@
+// TO DO
+// <h3> to be retained
+// <i>, <b>, <strong> inside the text shouldn't generate new paragraphs
+// <br> inside photo frame when description has multiple lines
+
+
 // ___________LEAD/OPIS_________________
 
 
