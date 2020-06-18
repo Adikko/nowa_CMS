@@ -2,6 +2,7 @@
 // <h3> to be retained
 // <i>, <b>, <strong> inside the text shouldn't generate new paragraphs
 // <br> inside photo frame when description has multiple lines
+// spaces to be retained in the lead
 
 
 // ___________LEAD/OPIS_________________
@@ -16,7 +17,7 @@ let savedIteratorValues = [];
 
 for (let i = 0; i < leadLetters.length; i++)
 {
-	if (i < 4) // sprawdzam 4 pierwsze znaki (spotkałem się z 3 spacjami na start, 4 to bufor bezpieczenstwa)
+	if (i < 2) // sprawdzam 4 pierwsze znaki (spotkałem się z 3 spacjami na start, 4 to bufor bezpieczenstwa)
 	{
 		if (leadLetters[i] === " ")
 		{
