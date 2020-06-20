@@ -1,6 +1,5 @@
 // TO DO
 // <h3> to be retained
-// <i>, <b>, <strong> inside the text shouldn't generate new paragraphs
 // <br> inside photo frame when description has multiple lines
 // links ending in a dot cannot generate a new line of text
 
@@ -142,6 +141,41 @@ for (let i = 4; i < everyTagInNewLineWithoutEmptyOnes.length; i++) // zaczynam i
 		continue;
 	}
 	finalArticleArray.push(everyTagInNewLineWithoutEmptyOnes[i]);
+}
+
+let stylingArray = ["<em>", "<strong>", "<i>", "<b>"]; // tagi HTML określające styl
+let finalArticleArrayToDelete = []
+
+for (let i = 0; i < finalArticleArray.length; i++) // szukam tagów stylizujacych (em, strong, i itd.) i usuwam paragrafy, które je poprzedzają i które po nich nastepują. Usuwam też <p> występujące przed i po tagu oznaczającym koniec stylowania np. </em>. Stąd usuwane są łącznie 2 <p> i 2 </p>
+{
+	for (let j = 0; j < stylingArray.length; j++)
+	{
+		if (finalArticleArray[i] === stylingArray[j])
+		{
+			if (finalArticleArrayToDelete.push(i - 1) === "</p>")
+			{
+				finalArticleArrayToDelete.push(i - 1);
+			}
+			else if (finalArticleArrayToDelete.push(i + 1) === "<p>")
+			{
+				finalArticleArrayToDelete.push(i + 1);
+			}
+			else if (finalArticleArrayToDelete.push(i + 3) === "</p>")
+			{
+				finalArticleArrayToDelete.push(i + 3);
+			}
+			else if (finalArticleArrayToDelete.push(i + 5) === "<p>")
+			{
+				finalArticleArrayToDelete.push(i + 5);
+			}
+		}
+	}
+}
+
+// usuwam <p> z przed tagów stylizujących tekst: <em>, <strong> itd. i </p> po tagach stylizujących tekst: </em>, </strong> itd)
+for (let i = 0; i < finalArticleArrayToDelete.length; i++)
+{
+	finalArticleArray.splice(finalArticleArrayToDelete[i] - i, 1); // "[i] - i", ponieważ usunięcie znaku skraca długość listy
 }
 
 let finalArticleArrayWithPhotos = [];
