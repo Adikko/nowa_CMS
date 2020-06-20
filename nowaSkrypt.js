@@ -13,19 +13,22 @@ let leadEdited = "";
 let leadLetters = lead.split("");
 let savedIteratorValues = [];
 
-// numery (indeksy) niepotrzebnych znaków (jedna ze spacji w podwojnych spacjach, nowe linie tekstu, inne niechciane znaki) są przechowywane w liście. Każda pętla po kolei ma za zadanie indeksowanie tych znaków. Zostaną one później wsadowo usunięte. Rozwiązanie ma na celu optymalizację wykorzystania zasobów i złożoności obliczeniowej.
+// numery (indeksy) niepotrzebnych znaków (jedna ze spacji w podwojnych spacjach, nowe linie tekstu, inne niechciane znaki) są przechowywane w liście.
+// Każda pętla po kolei ma za zadanie indeksowanie tych znaków. Zostaną one później wsadowo usunięte.
+// Rozwiązanie ma na celu optymalizację wykorzystania zasobów i złożoności obliczeniowej.
+
+for (let i = 0; i < leadLetters.length; i++)  // usuwam spacje występujące przed pierwszym słowem
+{
+	if (leadLetters[i] === " ")
+	{
+		savedIteratorValues.push(i);
+		break;
+	}
+}
 
 for (let i = 0; i < leadLetters.length; i++)
 {
-	if (i < 2) // sprawdzam 4 pierwsze znaki (spotkałem się z 3 spacjami na start, 4 to bufor bezpieczenstwa)
-	{
-		if (leadLetters[i] === " ")
-		{
-			savedIteratorValues.push(i);
-			continue;
-		}
-	}
-	else if (leadLetters[i] === "\n") // usuwam znaki nowych linii
+	if (leadLetters[i] === "\n") // usuwam znaki nowych linii
 	{
 		savedIteratorValues.push(i);
 		continue;
