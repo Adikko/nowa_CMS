@@ -89,6 +89,11 @@ let articleCode = document.getElementsByTagName("iframe")[0].contentWindow.docum
 let letters = articleCode.split("");
 let everyTagInNewLine = [];
 
+// narzędzie diagnostyczne - sprawdzam długość artykułu przed wprowadzeniem zmian i drukuję tę liczbę do konsoli
+let letterCount1 = document.getElementById("description").value.length; //LEAD
+let letterCount2 = document.getElementsByTagName("iframe")[0].contentWindow.document.getElementById("tinymce").innerText.length; //TEKST przed edycją
+console.log("artykuł (wraz z Leadem) miał", letterCount1 + letterCount2, "znaków.");
+
 // pętla rozdziela każdy tag HTML do osobnej linijki
 for (let i = 0; i < letters.length; i++)
 {
@@ -237,3 +242,7 @@ for (let i = 0; i < finalArticleArrayWithPhotos.length; i++) // wpisuje edytowan
 }
 
 document.getElementsByTagName("iframe")[0].contentWindow.document.getElementById("tinymce").innerHTML = editedArticle;
+
+// narzędzie diagnostyczne - sprawdzam długość artykułu po wprowadzeniu zmian i drukuję tę liczbę do konsoli
+let letterCount3 = document.getElementsByTagName("iframe")[0].contentWindow.document.getElementById("tinymce").innerText.length;
+console.log("artykuł (wraz z Leadem) ma", letterCount1 + letterCount3, "znaków."); // letterCount1 (Lead) nie uległ zmianie. Nie ma sensu ponowne obliczanie jego długości
