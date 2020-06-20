@@ -68,7 +68,6 @@ for (let i = 0; i < leadLetters.length; i++)
 // usuwam znaki o okreslonych przez uprzednie pętle indeksach
 for (let i = 0; i < savedIteratorValues.length; i++)
 {
-	console.log("usunięty znak", leadLetters[savedIteratorValues[i] - i]); // pokazuję usunięte znaki oraz ich indeksy
 	leadLetters.splice(savedIteratorValues[i] - i, 1); // "[i] - i", ponieważ usunięcie znaku skraca długość listy
 }
 
@@ -78,6 +77,11 @@ for (let i = 0; i < leadLetters.length; i++) // leadLetters musi zostać policzo
 }
 
 document.getElementById("description").value = leadEdited; // podmiana tekstu w tabelce "Opis"
+
+// porównanie oryginalnego Leada z poprawnionym
+
+console.log("Oryginalny Lead\n"+lead);
+console.log("Poprawiony Lead\n"+leadEdited);
 
 // ___________CALY_HTML_________________
 
