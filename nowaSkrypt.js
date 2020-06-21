@@ -95,7 +95,6 @@ let everyTagInNewLine = [];
 // narzędzie diagnostyczne - sprawdzam długość artykułu przed wprowadzeniem zmian i drukuję tę liczbę do konsoli
 let letterCount1 = document.getElementById("description").value.length; //LEAD
 let letterCount2 = document.getElementsByTagName("iframe")[0].contentWindow.document.getElementById("tinymce").innerText.length; //TEKST przed edycją
-console.log("artykuł (wraz z Leadem) miał", letterCount1 + letterCount2, "znaków.");
 
 // pętla rozdziela każdy tag HTML do osobnej linijki
 for (let i = 0; i < letters.length; i++)
@@ -114,6 +113,15 @@ for (let i = 0; i < letters.length; i++)
 }
 
 everyTagInNewLine = arrayToStoreArticleCode.split("\n");
+
+let imageCount1 = 0; // zliczam ilość zdjęć przed wprowadzeniem zmian
+for (let i = 0; i < everyTagInNewLine.length; i++) // pętla usuwa puste elementy listy
+{
+	if (everyTagInNewLine[i].substring(0, 4) === "<img")
+	{
+		imageCount1++;
+	}
+}
 
 let everyTagInNewLineWithoutEmptyOnes = []
 
@@ -195,7 +203,7 @@ for (let i = 0; i < finalArticleArray.length; i++) // wyciągam obrazki z tekstu
 		temp = []; // tymczasowy array do przechowywania poprawionego HTML opisujacego grafiki
 		if (finalArticleArray[i + 1].substring(0, 4) === "<spa") // sprawdzam, czy zdjęcie ma podpis
 		{
-			temp.push('<figure class="image" contenteditable="false">');
+			temp.push('<figure class="image" contenteditable="false">'); // inny typ cudzysłowia, bo HTML zawiera już cudzysłów
 			temp.push(finalArticleArray[i].substring(0, finalArticleArray[i].length - 1) + 'style="float: left";');
 			temp.push('<figcaption = "">');
 			temp.push('<figcaption contenteditable="true">');
@@ -208,7 +216,8 @@ for (let i = 0; i < finalArticleArray.length; i++) // wyciągam obrazki z tekstu
 			}
 			temp.push('</figcaption>');
 			temp.push('</figure>');
-			i = j + 2; // pomijam zaczytane tagi HTML opisujace zdjecie, span, img itd...
+			temp.push('<br>'); // break point dodawany po zdjeciu!
+			i = j // pomijam zaczytane tagi HTML opisujace zdjecie, span, img itd...
 		}
 		else
 		{
@@ -216,9 +225,10 @@ for (let i = 0; i < finalArticleArray.length; i++) // wyciągam obrazki z tekstu
 			temp.push(finalArticleArray[i].substring(0, finalArticleArray[i].length - 1) + 'style="float: left";');
 			temp.push('<figcaption = "">');
 			temp.push('<figcaption contenteditable="true">');
-			temp.push("<br>");		
+			temp.push("<br>");
 			temp.push('</figcaption>');
 			temp.push('</figure>');
+			temp.push('<br>'); // break point dodawany po zdjeciu!
 			i = i + 2; // pomijam zaczytane tagi HTML opisujace zdjecie, span, img itd...
 		}
 		for (let k = 0; k < temp.length; k++) // usuwam paragrafy z <img>
@@ -248,4 +258,14 @@ document.getElementsByTagName("iframe")[0].contentWindow.document.getElementById
 
 // narzędzie diagnostyczne - sprawdzam długość artykułu po wprowadzeniu zmian i drukuję tę liczbę do konsoli
 let letterCount3 = document.getElementsByTagName("iframe")[0].contentWindow.document.getElementById("tinymce").innerText.length;
+let imageCount2 = document.getElementsByTagName("iframe")[0].contentWindow.document.getElementsByTagName("img").length
+console.log("artykuł (wraz z Leadem) miał", letterCount1 + letterCount2, "znaków.");
 console.log("artykuł (wraz z Leadem) ma", letterCount1 + letterCount3, "znaków."); // letterCount1 (Lead) nie uległ zmianie. Nie ma sensu ponowne obliczanie jego długości
+if (imageCount2 === imageCount1)
+{
+	console.log("artykuł miał", imageCount1, "zdjęć. Po edycji ma", imageCount2, "zdjęć. Liczba jest identyczna.");
+}
+else
+{
+	console.log("artykuł miał", imageCount1, "zdjęć. Po edycji ma", imageCount2, "zdjęć. Coś poszło nie tak.");
+}
