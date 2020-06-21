@@ -16,12 +16,15 @@ let savedIteratorValues = [];
 // Każda pętla po kolei ma za zadanie indeksowanie tych znaków. Zostaną one później wsadowo usunięte.
 // Rozwiązanie ma na celu optymalizację wykorzystania zasobów i złożoności obliczeniowej.
 
-for (let i = 0; i < leadLetters.length; i++)  // usuwam spacje występujące przed pierwszym słowem
+if (leadLetters[0] === " ") // sprwadzam, czy przed pierwszym słowem występują spacje
 {
-	if (leadLetters[i] === " ")
-	{
-		savedIteratorValues.push(i);
-		break;
+	for (let i = 0; i < leadLetters.length; i++)  // usuwam spacje występujące przed pierwszym słowem
+	{ 
+		if (leadLetters[i] === " ")
+		{
+			savedIteratorValues.push(i);
+			break;
+		}
 	}
 }
 
@@ -218,7 +221,7 @@ for (let i = 0; i < finalArticleArray.length; i++) // wyciągam obrazki z tekstu
 			temp.push('</figure>');
 			i = i + 2; // pomijam zaczytane tagi HTML opisujace zdjecie, span, img itd...
 		}
-		for (let k = 0; k < temp.length; k++)
+		for (let k = 0; k < temp.length; k++) // usuwam paragrafy z <img>
 		{
 			if (temp[k] === "<p>")
 			{
