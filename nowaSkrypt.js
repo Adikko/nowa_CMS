@@ -207,7 +207,7 @@ for (let i = 0; i < finalArticleArray.length; i++) // wyciągam obrazki z tekstu
 			temp.push(finalArticleArray[i].substring(0, finalArticleArray[i].length - 1) + 'style="float: left";');
 			temp.push('<figcaption = "">');
 			temp.push('<figcaption contenteditable="true">');
-			temp.push("<br>");		
+			// temp.push("<br>");		
 			let j = i + 2; // przechodze od razu do opisu fotografii, który znajduje się 3 linijki pod tagiem <img>)
 			while (finalArticleArray[j] !== "</span>")
 			{
@@ -225,7 +225,7 @@ for (let i = 0; i < finalArticleArray.length; i++) // wyciągam obrazki z tekstu
 			temp.push(finalArticleArray[i].substring(0, finalArticleArray[i].length - 1) + 'style="float: left";');
 			temp.push('<figcaption = "">');
 			temp.push('<figcaption contenteditable="true">');
-			temp.push("<br>");
+			// temp.push("<br>");
 			temp.push('</figcaption>');
 			temp.push('</figure>');
 			temp.push('<br>'); // break point dodawany po zdjeciu!
