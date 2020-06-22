@@ -1,7 +1,6 @@
 // TO DO
 // <h3> to be retained
 // <br> inside photo frame when description has multiple lines
-// links ending in a dot cannot generate a new line of text
 
 
 // ___________LEAD/OPIS_________________
@@ -159,14 +158,14 @@ for (let i = 4; i < everyTagInNewLineWithoutEmptyOnes.length; i++) // zaczynam i
 	finalArticleArray.push(everyTagInNewLineWithoutEmptyOnes[i]);
 }
 
-let stylingArray = ["<em>", "<strong>", "<i>", "<b>"]; // tagi HTML określające styl
+let stylingArray = ["<em>", "<strong>", "<i>", "<b>", "<a href"]; // tagi HTML określające styl i obecność linków
 let finalArticleArrayToDelete = []
 
 for (let i = 0; i < finalArticleArray.length; i++) // szukam tagów stylizujacych (em, strong, i itd.) i usuwam paragrafy, które je poprzedzają i które po nich nastepują. Usuwam też <p> występujące przed i po tagu oznaczającym koniec stylowania np. </em>. Stąd usuwane są łącznie 2 <p> i 2 </p>
 {
 	for (let j = 0; j < stylingArray.length; j++)
 	{
-		if (finalArticleArray[i] === stylingArray[j])
+		if (finalArticleArray[i].substring(0, 3) === stylingArray[j].substring(0, 3))
 		{
 			if (finalArticleArrayToDelete.push(i - 1) === "</p>")
 			{
