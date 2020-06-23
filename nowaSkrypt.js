@@ -168,21 +168,16 @@
 		{
 			if (finalArticleArray[i].substring(0, 3) === stylingArray[j].substring(0, 3))
 			{
-				if (finalArticleArray[i - 1] === "</p>")
+				switch (true)
 				{
-					finalArticleArrayToDelete.push(i - 1);
-				}
-				else if (finalArticleArray[i + 1] === "<p>")
-				{
-					finalArticleArrayToDelete.push(i + 1);
-				}
-				else if (finalArticleArray[i + 3] === "</p>")
-				{
-					finalArticleArrayToDelete.push(i + 3);
-				}
-				else if (finalArticleArray[i + 5] === "<p>")
-				{
-					finalArticleArrayToDelete.push(i + 5);
+					case (finalArticleArray[i - 1] === "</p>"):
+						finalArticleArrayToDelete.push(i - 1);
+					case (finalArticleArray[i + 1] === "<p>"):
+						finalArticleArrayToDelete.push(i + 1);
+					case (finalArticleArray[i + 3] === "</p>"):
+						finalArticleArrayToDelete.push(i + 3);
+					case (finalArticleArray[i + 5] === "<p>"):
+						finalArticleArrayToDelete.push(i + 5);
 				}
 			}
 		}
