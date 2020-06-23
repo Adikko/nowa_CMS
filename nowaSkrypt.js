@@ -149,6 +149,20 @@ for (let i = 4; i < everyTagInNewLineWithoutEmptyOnes.length; i++) // zaczynam i
 	{
 		continue;
 	}
+	else if (everyTagInNewLineWithoutEmptyOnes[i] === "<h3>") // h3 pozostaje niezmienione, nie usuwam ani nie dodaję paragrafów
+	{
+		finalArticleArray.push(everyTagInNewLineWithoutEmptyOnes[i]); // znalazłem <h3>
+		switch (true)
+		{
+			case (everyTagInNewLineWithoutEmptyOnes[i + 1].substring(0, 1) !== "<"): // szukam treści, nie tagów HTML
+				finalArticleArray.push(everyTagInNewLineWithoutEmptyOnes[i + 1]); // treść śródtytułu
+				i = i + 2;
+		}
+	}
+	else if (everyTagInNewLineWithoutEmptyOnes[i] === "<h3>") // usuwam tagi break
+	{
+		finalArticleArray.push(everyTagInNewLineWithoutEmptyOnes[i]); // dodaję koniec śródtytułu
+	}
 	else if (everyTagInNewLineWithoutEmptyOnes[i][0] !== "<") // wybieram z HTML czysty tekst (w tym opisy zdjęć)
 	{
 		finalArticleArray.push("<p>");		
