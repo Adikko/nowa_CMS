@@ -1,7 +1,9 @@
+// V. 1.0
+
 // TO DO
 // interviews - how to retain <strongs> in new lines, but respect the styling of other styling tags, and strongs in the middle of a sentence?
 //		maybe check for strong and <br> while appending to everyTagInNewLineWithoutEmptyOnes array?
-// <br> inside photo frame when description has multiple lines
+// links in image descriptions -> they tend to break the img frame
 
 
 // ___________LEAD/OPIS_________________
@@ -145,8 +147,9 @@ for (let i = 4; i < everyTagInNewLineWithoutEmptyOnes.length; i++) // zaczynam i
 	{
 		continue;
 	}
-	else if (everyTagInNewLineWithoutEmptyOnes[i] === "<br>") // usuwam tagi break
+	else if (everyTagInNewLineWithoutEmptyOnes[i] === "<br>") // podmieniam tagi break na komentarze HTML, by nie zmieniały rozkładu dokumentu, ale jednocześnie były łatwe do zlokalizowania przez program
 	{
+		finalArticleArray.push("<!--BR-->"); // taki tekst będzie łatwy do odnalezienia
 		continue;
 	}
 	else if (everyTagInNewLineWithoutEmptyOnes[i] === "<h3>") // h3 pozostaje niezmienione, nie usuwam ani nie dodaję paragrafów
@@ -217,16 +220,24 @@ for (let i = 0; i < finalArticleArray.length; i++) // wyciągam obrazki z tekstu
 			temp.push('<figcaption = "">');
 			temp.push('<figcaption contenteditable="true">');
 			temp.push("<br>");		
-			let j = i + 2; // przechodze od razu do opisu fotografii, który znajduje się 3 linijki pod tagiem <img>)
-			while (finalArticleArray[j] !== "</span>")
+			let j = i + 2; // przechodze od razu do opisu fotografii, który znajduje się 3 linijki pod tagiem <img>)	
+			while (finalArticleArray[j] !== "<!--BR-->") // sprawdzam, czy widzimy w obecnej iteracji pętli nasz podmieniony tag break
 			{
-				temp.push(finalArticleArray[j]);
-				j++;
+				if (finalArticleArray[j][0] !== "<") // sprawdzam, czy linijka pod zdjęciem to opis, czy tag HTML
+				{
+					temp.push(finalArticleArray[j]);
+					temp.push("<br>");
+					j++;
+				}
+				else // jeżeli to paragraf, span, czy cokolwiek innego - nie wstawiam kolejnego breaka
+				{
+					temp.push(finalArticleArray[j]);
+					j++;
+				}
 			}
 			temp.push('</figcaption>');
 			temp.push('</figure>');
-			// temp.push('<br>'); // break point dodawany po zdjeciu!
-			i = j // pomijam zaczytane tagi HTML opisujace zdjecie, span, img itd...
+			i = j + 2;
 		}
 		else
 		{
@@ -237,7 +248,6 @@ for (let i = 0; i < finalArticleArray.length; i++) // wyciągam obrazki z tekstu
 			temp.push("<br>");
 			temp.push('</figcaption>');
 			temp.push('</figure>');
-			// temp.push('<br>'); // break point dodawany po zdjeciu!
 			i = i + 2; // pomijam zaczytane tagi HTML opisujace zdjecie, span, img itd...
 		}
 		for (let k = 0; k < temp.length; k++) // usuwam paragrafy z <img>
@@ -254,6 +264,21 @@ for (let i = 0; i < finalArticleArray.length; i++) // wyciągam obrazki z tekstu
 		}
 	}
 	finalArticleArrayWithPhotos.push(finalArticleArray[i]);
+}
+
+let arrayToRemoveTemporaryBreakTags = [];
+
+for (let i = 0; i < finalArticleArrayWithPhotos.length; i++)
+{
+	if (finalArticleArrayWithPhotos[i] === "<!--BR-->") // usuwam tagi tymczasowe break
+	{
+		arrayToRemoveTemporaryBreakTags.push(i);
+	}
+}
+
+for (let i = 0; i < arrayToRemoveTemporaryBreakTags.length; i++)
+{
+	finalArticleArrayWithPhotos.splice(arrayToRemoveTemporaryBreakTags[i] - i, 1); // "[i] - i", ponieważ usunięcie znaku skraca długość listy
 }
 
 let editedArticle = "";
