@@ -1,5 +1,6 @@
 	// TO DO
 	// interviews - how to retain <strongs> in new lines, but respect the styling of other styling tags, and strongs in the middle of a sentence?
+	//		maybe check for strong and <br> while appending to everyTagInNewLineWithoutEmptyOnes array?
 	// <br> inside photo frame when description has multiple lines
 
 
