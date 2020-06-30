@@ -139,11 +139,11 @@ let finalArticleArray = []
 
 for (let i = 4; i < everyTagInNewLineWithoutEmptyOnes.length; i++) // zaczynam iterować pętle od 4, ponieważ pierwsze 3 tagi są związane z datą, którą zawsze usuwamy
 {
-	if (everyTagInNewLineWithoutEmptyOnes[i] === "<div>") // usuwam tagi otwierające division
+	if (everyTagInNewLineWithoutEmptyOnes[i].substring(0, 4) === "<div") // usuwam tagi otwierające division
 	{
 		continue;
 	}
-	else if (everyTagInNewLineWithoutEmptyOnes[i] === "</div>") // usuwam tagi zamykające division
+	else if (everyTagInNewLineWithoutEmptyOnes[i].substring(0, 4) === "</di") // usuwam tagi zamykające division
 	{
 		continue;
 	}
@@ -161,7 +161,7 @@ for (let i = 4; i < everyTagInNewLineWithoutEmptyOnes.length; i++) // zaczynam i
 				i = i + 2;
 		}
 	}
-	else if (everyTagInNewLineWithoutEmptyOnes[i] === "<h3>") // usuwam tagi break
+	else if (everyTagInNewLineWithoutEmptyOnes[i] === "</h3>") // tag kończący </h3> również pozostawiam bez zmian
 	{
 		finalArticleArray.push(everyTagInNewLineWithoutEmptyOnes[i]); // dodaję koniec śródtytułu
 	}
