@@ -1,10 +1,8 @@
-// V. 1.0
-
-// TO DO
-// interviews - how to retain <strongs> in new lines, but respect the styling of other styling tags, and strongs in the middle of a sentence?
-//		maybe check for strong and <br> while appending to everyTagInNewLineWithoutEmptyOnes array?
-// links in image descriptions -> they tend to break the img frame
-
+// V. 1.1 experimental
+// changelog:
+// multiple line photo descriptions are not supported. That's caused by the multitude of styles represented by many writers. I don't know how to make an algorithm that's universal. Yet.
+// added another diagnostic tool that's checking the amount of links before and after.
+// line 239 and 250 are now incremental, instead od + 2. For testing purposes, but it seems to be a lot safer this way, no links are now missing.
 
 // ___________LEAD/OPIS_________________
 
@@ -134,7 +132,9 @@ for (let i = 0; i < everyTagInNewLine.length; i++) // pętla usuwa puste element
 		everyTagInNewLineWithoutEmptyOnes.push(everyTagInNewLine[i]);
 	}
 }
-				
+
+let linkCount1 = document.getElementsByTagName("iframe")[0].contentWindow.document.getElementsByTagName("a").length; // sprawdzam ilość linków przed wprowadzaniem zmian do kodu HTML
+
 let finalArticleArray = []
 
 for (let i = 4; i < everyTagInNewLineWithoutEmptyOnes.length; i++) // zaczynam iterować pętle od 4, ponieważ pierwsze 3 tagi są związane z datą, którą zawsze usuwamy
@@ -147,9 +147,8 @@ for (let i = 4; i < everyTagInNewLineWithoutEmptyOnes.length; i++) // zaczynam i
 	{
 		continue;
 	}
-	else if (everyTagInNewLineWithoutEmptyOnes[i] === "<br>") // podmieniam tagi break na komentarze HTML, by nie zmieniały rozkładu dokumentu, ale jednocześnie były łatwe do zlokalizowania przez program
+	else if (everyTagInNewLineWithoutEmptyOnes[i] === "<br>") // usuwam tagi break, dzięki temu kod staje się bardziej uniweralny niezależnie od redaktora.
 	{
-		finalArticleArray.push("<!--BR-->"); // taki tekst będzie łatwy do odnalezienia
 		continue;
 	}
 	else if (everyTagInNewLineWithoutEmptyOnes[i] === "<h3>") // h3 pozostaje niezmienione, nie usuwam ani nie dodaję paragrafów
@@ -213,15 +212,15 @@ for (let i = 0; i < finalArticleArray.length; i++) // wyciągam obrazki z tekstu
 	if (finalArticleArray[i].substring(0, 4) === "<img") // sprawdzam, czy element jest zdjęciem
 	{
 		temp = []; // tymczasowy array do przechowywania poprawionego HTML opisujacego grafiki
-		if (finalArticleArray[i + 1].substring(0, 4) === "<spa") // sprawdzam, czy zdjęcie ma podpis
+		if (finalArticleArray[i + 1].substring(0, 4) === "<spa") // sprawdzam, czy zdjęcie ma podpis. Sprawdzana jest linijka pod "<img>", ponieważ po usunięciu breaków ("<br>") kod stał się uniwersalny niezależnie od redaktora.
 		{
 			temp.push('<figure class="image" contenteditable="false">'); // inny typ cudzysłowia, bo HTML zawiera już cudzysłów
 			temp.push(finalArticleArray[i].substring(0, finalArticleArray[i].length - 1) + 'style="float: left";');
 			temp.push('<figcaption = "">');
 			temp.push('<figcaption contenteditable="true">');
 			temp.push("<br>");		
-			let j = i + 2; // przechodze od razu do opisu fotografii, który znajduje się 3 linijki pod tagiem <img>)	
-			while (finalArticleArray[j] !== "<!--BR-->") // sprawdzam, czy widzimy w obecnej iteracji pętli nasz podmieniony tag break
+			let j = i + 2; // przechodze od razu do opisu fotografii, który znajduje się 3 linijki pod tagiem <img> (numeruje po liczbach naturalnych (od 1))
+			while (finalArticleArray[j] !== "</span>") // sprawdzam, czy nie wyszliśmy z tagu <img>
 			{
 				if (finalArticleArray[j][0] !== "<") // sprawdzam, czy linijka pod zdjęciem to opis, czy tag HTML
 				{
@@ -237,7 +236,7 @@ for (let i = 0; i < finalArticleArray.length; i++) // wyciągam obrazki z tekstu
 			}
 			temp.push('</figcaption>');
 			temp.push('</figure>');
-			i = j + 2;
+			i = j + 1; // +2 szło za daleko...
 		}
 		else
 		{
@@ -248,7 +247,7 @@ for (let i = 0; i < finalArticleArray.length; i++) // wyciągam obrazki z tekstu
 			temp.push("<br>");
 			temp.push('</figcaption>');
 			temp.push('</figure>');
-			i = i + 2; // pomijam zaczytane tagi HTML opisujace zdjecie, span, img itd...
+			i = i + 1; // pomijam zaczytane tagi HTML opisujace zdjecie, span, img itd...
 		}
 		for (let k = 0; k < temp.length; k++) // usuwam paragrafy z <img>
 		{
@@ -266,21 +265,6 @@ for (let i = 0; i < finalArticleArray.length; i++) // wyciągam obrazki z tekstu
 	finalArticleArrayWithPhotos.push(finalArticleArray[i]);
 }
 
-let arrayToRemoveTemporaryBreakTags = [];
-
-for (let i = 0; i < finalArticleArrayWithPhotos.length; i++)
-{
-	if (finalArticleArrayWithPhotos[i] === "<!--BR-->") // usuwam tagi tymczasowe break
-	{
-		arrayToRemoveTemporaryBreakTags.push(i);
-	}
-}
-
-for (let i = 0; i < arrayToRemoveTemporaryBreakTags.length; i++)
-{
-	finalArticleArrayWithPhotos.splice(arrayToRemoveTemporaryBreakTags[i] - i, 1); // "[i] - i", ponieważ usunięcie znaku skraca długość listy
-}
-
 let editedArticle = "";
 
 for (let i = 0; i < finalArticleArrayWithPhotos.length; i++) // wpisuje edytowany tekst do stringa, by moc podmienic zawartość TinyMCE
@@ -292,7 +276,8 @@ document.getElementsByTagName("iframe")[0].contentWindow.document.getElementById
 
 // narzędzie diagnostyczne - sprawdzam długość artykułu po wprowadzeniu zmian i drukuję tę liczbę do konsoli
 let letterCount3 = document.getElementsByTagName("iframe")[0].contentWindow.document.getElementById("tinymce").innerText.length;
-let imageCount2 = document.getElementsByTagName("iframe")[0].contentWindow.document.getElementsByTagName("img").length
+let imageCount2 = document.getElementsByTagName("iframe")[0].contentWindow.document.getElementsByTagName("img").length;
+let linkCount2 = document.getElementsByTagName("iframe")[0].contentWindow.document.getElementsByTagName("a").length;
 console.log("artykuł (wraz z Leadem) miał", letterCount1 + letterCount2, "znaków.");
 console.log("artykuł (wraz z Leadem) ma", letterCount1 + letterCount3, "znaków."); // letterCount1 (Lead) nie uległ zmianie. Nie ma sensu ponowne obliczanie jego długości
 if (imageCount2 === imageCount1)
@@ -302,4 +287,12 @@ if (imageCount2 === imageCount1)
 else
 {
 	console.log("artykuł miał", imageCount1, "zdjęć. Po edycji ma", imageCount2, "zdjęć. Coś poszło nie tak.");
+}
+if (linkCount1 === linkCount2)
+{
+	console.log("artykuł miał", linkCount1, "linków. Po edycji ma", linkCount2, "linków. Liczba jest identyczna.");
+}
+else
+{
+	console.log("artykuł miał", linkCount1, "linków. Po edycji ma", linkCount2, "linków. Coś poszło nie tak.");
 }
