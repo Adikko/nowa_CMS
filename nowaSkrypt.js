@@ -1,4 +1,4 @@
-// V. 1.1 experimental
+// V. 1.1
 // changelog:
 // multiple line photo descriptions are not supported. That's caused by the multitude of styles represented by many writers. I don't know how to make an algorithm that's universal. Yet.
 // added another diagnostic tool that's checking the amount of links before and after.
