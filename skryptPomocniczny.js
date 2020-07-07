@@ -18,7 +18,8 @@ if (quoteArray > 0)
 // LINKI:
 let allLinks = document.getElementsByClassName("medium-8 columns content")[0].getElementsByTagName("a").length; //zliczam wszystkie linki (niestety łącznie z tagami)
 let tagsLinks = document.getElementsByClassName("tags")[0].getElementsByTagName("a").length; //zliczam linki
-let articleLinks = allLinks - tagsLinks;
+let socialLinks = document.getElementsByClassName("addthis_sharing_toolbox")[0].getElementsByTagName("a").length; //zliczam linki do mediów społecznościowych
+let articleLinks = allLinks - tagsLinks - socialLinks;
 console.log("Ilość linków: " + articleLinks);
 
 // ZDJĘCIA:
