@@ -9,7 +9,7 @@ for (let i = 0; i < document.getElementsByTagName("blockquote").length; i++)
 {
     quoteArray.push(document.getElementsByTagName("blockquote")[i].innerText);
 }
-console.log("Ilość cytatów: " + quoteArray.length);
+console.log("Ilość cytatów: " + quoteArray.length); //wypisuje cytaty dopiero wtedy, gdy jakies sie w tekscie pojawiaja
 if (quoteArray > 0)
 {
     console.log(quoteArray);
@@ -27,4 +27,11 @@ console.log("Ilość zdjęć: " + document.getElementsByClassName("medium-8 colu
 
 
 // AUTOR:
-console.log('Autor artykułu: ' + document.getElementsByClassName("authors")[0].innerText)
+if (document.getElementsByClassName("authors").length > 0)
+{
+    console.log('Autor artykułu: ' + document.getElementsByClassName("authors")[0].innerText);    
+}
+else
+{
+    console.log('Brak autora.');
+}
