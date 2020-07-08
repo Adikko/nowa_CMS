@@ -10,7 +10,7 @@ for (let i = 0; i < document.getElementsByTagName("blockquote").length; i++)
     quoteArray.push(document.getElementsByTagName("blockquote")[i].innerText);
 }
 console.log("Ilość cytatów: " + quoteArray.length); //wypisuje cytaty dopiero wtedy, gdy jakies sie w tekscie pojawiaja
-if (quoteArray > 0)
+if (quoteArray.length > 0)
 {
     console.log(quoteArray);
 }
