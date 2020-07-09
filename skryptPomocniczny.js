@@ -1,7 +1,7 @@
 // Skrypt do aktywacji w aktualnościach na starej stronie UPWr
 
 // DŁUGOSĆ ARTYKUŁÓW: (uwzglednia niestety date)
-console.log("Długość artykułu: " + document.getElementsByClassName("medium-8 columns content")[0].innerText.length + " znaków. Ta liczba może się różnić od liczby z panelu Nowej o +/- 5%.");
+console.log("Długość artykułu: " + document.getElementsByClassName("medium-8 columns content")[0].innerText.length + " znaków. Ta liczba może się różnić od liczby z panelu Nowej o +/- 10%.");
 
 // CYTATY:
 let quoteArray = [];
