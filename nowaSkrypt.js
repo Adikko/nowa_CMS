@@ -175,7 +175,7 @@ for (let i = 4; i < everyTagInNewLineWithoutEmptyOnes.length; i++) // zaczynam i
 	finalArticleArray.push(everyTagInNewLineWithoutEmptyOnes[i]);
 }
 
-let stylingArray = ["<em>", "<strong>", "<i>", "<b>", "<a href"]; // tagi HTML określające styl i obecność linków. pogrubienia w trakcie tekstu zostają pominięte, ponieważ często są indykatorami wywiadu. Niestety, to konieczny kompromis, ze względu na mnogość autorów głosu i ich stylów
+let stylingArray = ["<em>", "<strong>", "<i>", "<b>", "<a href", "<sub>", "<sup>"]; // tagi HTML określające styl i obecność linków. pogrubienia w trakcie tekstu zostają pominięte, ponieważ często są indykatorami wywiadu. Niestety, to konieczny kompromis, ze względu na mnogość autorów głosu i ich stylów
 let finalArticleArrayToDelete = []
 
 for (let i = 0; i < finalArticleArray.length; i++) // szukam tagów stylizujacych (em, strong, i itd.) i usuwam paragrafy, które je poprzedzają i które po nich nastepują. Usuwam też <p> występujące przed i po tagu oznaczającym koniec stylowania np. </em>. Stąd usuwane są łącznie 2 <p> i 2 </p>
