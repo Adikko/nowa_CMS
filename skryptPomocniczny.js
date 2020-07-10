@@ -16,10 +16,21 @@ if (quoteArray.length > 0)
 }
 
 // LINKI:
+let imageLinks;
+
 let allLinks = document.getElementsByClassName("medium-8 columns content")[0].getElementsByTagName("a").length; //zliczam wszystkie linki (niestety łącznie z tagami)
 let tagsLinks = document.getElementsByClassName("tags")[0].getElementsByTagName("a").length; //zliczam linki
+if (document.getElementsByClassName("row body")[0].classList.contains("images naked floatbox")) //sprawdzam, czy strona ma galerię. Nie mogę liczyć nieistniejącego elementu...
+{
+    imageLinks = document.getElementsByClassName("images naked floatbox")[0].getElementsByTagName("a").length; //każdy obrazek podglądowy jest linkiem do zdjęcia w pełnej rodzielczosci, trzeba to wziac pod uwage
+}
+else
+{
+    imageLinks = 0;
+    console.log("Nie ma galerii!");
+}
 let socialLinks = document.getElementsByClassName("addthis_sharing_toolbox")[0].getElementsByTagName("a").length; //zliczam linki do mediów społecznościowych
-let articleLinks = allLinks - tagsLinks - socialLinks;
+let articleLinks = allLinks - tagsLinks - socialLinks - imageLinks;
 console.log("Ilość linków: " + articleLinks);
 
 // ZDJĘCIA:
