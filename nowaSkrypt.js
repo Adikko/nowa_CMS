@@ -273,6 +273,7 @@ for (let i = 0; i < finalArticleArrayWithPhotos.length; i++) // wpisuje edytowan
 	editedArticle += finalArticleArrayWithPhotos[i];
 }
 
+// Tutaj będą zmiany
 document.getElementsByTagName("iframe")[0].contentWindow.document.getElementById("tinymce").innerHTML = editedArticle;
 
 // narzędzie diagnostyczne - sprawdzam długość artykułu po wprowadzeniu zmian i drukuję tę liczbę do konsoli
