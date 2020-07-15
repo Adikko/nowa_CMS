@@ -1,8 +1,6 @@
-// V. 1.1
-// changelog:
-// multiple line photo descriptions are not supported. That's caused by the multitude of styles represented by many writers. I don't know how to make an algorithm that's universal. Yet.
-// added another diagnostic tool that's checking the amount of links before and after.
-// line 239 and 250 are now incremental, instead od + 2. For testing purposes, but it seems to be a lot safer this way, no links are now missing.
+// V. 1.2
+// changelog (from V. 1.1):
+// Corrected text is now injected directly into the code editor of the text editor
 
 // ___________LEAD/OPIS_________________
 
@@ -273,8 +271,26 @@ for (let i = 0; i < finalArticleArrayWithPhotos.length; i++) // wpisuje edytowan
 	editedArticle += finalArticleArrayWithPhotos[i];
 }
 
-// Tutaj będą zmiany
-document.getElementsByTagName("iframe")[0].contentWindow.document.getElementById("tinymce").innerHTML = editedArticle;
+// podmiana treści za pomocą okna CODE poniżej:
+// emulowane jest kliknięcie myszki funkcją click()
+function sleep(ms) // definicja funkcji opóźnienia, przez animacje i opóźnienia związane z internetem - musi istnieć
+{
+	return new Promise
+	(
+		resolve => setTimeout(resolve, ms)
+	);
+}
+  
+async function delayedTextInjection() // podmiana tekstu rozwiązane jest funkcją asynchroniczną
+{
+	document.getElementsByClassName("mce-ico mce-i-code")[0].click(); // Otwieram edytor kody TinyMCE, rozwiązując tym samym problemy z poszanowaniem stylowania artykułu <strong> itd...
+	await sleep(1000);
+	document.getElementsByClassName("mce-textbox mce-multiline mce-abs-layout-item mce-first mce-last")[0].value = editedArticle;
+	await sleep(500);
+	document.getElementById("mceu_61-button").click(); // zapisuje zmiane klikajac w "Ok"
+}
+  
+delayedTextInjection()
 
 // narzędzie diagnostyczne - sprawdzam długość artykułu po wprowadzeniu zmian i drukuję tę liczbę do konsoli
 let letterCount3 = document.getElementsByTagName("iframe")[0].contentWindow.document.getElementById("tinymce").innerText.length;
